@@ -154,6 +154,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LocationsController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -165,6 +166,7 @@
     <Compile Include="Models\AppDB_Context.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ViewModels\LocationVm.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap-theme.css" />
@@ -176,6 +178,7 @@
     <Content Include="Content\treeview\checkbox.min.css" />
     <Content Include="Content\treeview\core.css" />
     <Content Include="Content\treeview\core.min.css" />
+    <Content Include="Content\treeview\gijgo.min.css" />
     <Content Include="Content\treeview\tree.css" />
     <Content Include="Content\treeview\tree.min.css" />
     <Content Include="favicon.ico" />
@@ -201,6 +204,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.8.3.js" />
+    <Content Include="Scripts\treeview\AjaxManager.js" />
     <Content Include="Scripts\treeview\checkbox.js" />
     <Content Include="Scripts\treeview\checkbox.min.js" />
     <Content Include="Scripts\treeview\core.js" />
@@ -209,6 +213,7 @@
     <Content Include="Scripts\treeview\draggable.min.js" />
     <Content Include="Scripts\treeview\droppable.js" />
     <Content Include="Scripts\treeview\droppable.min.js" />
+    <Content Include="Scripts\treeview\gijgo.min.js" />
     <Content Include="Scripts\treeview\tree.js" />
     <Content Include="Scripts\treeview\tree.min.js" />
     <Content Include="Web.config" />
