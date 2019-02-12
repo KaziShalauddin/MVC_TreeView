@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" type="text/css" media="screen" href="main.css" /> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.9.1/jquery.js" integrity="sha256-e9gNBsAcA0DBuRWbm0oZfbiCyhjLrI6bmqAl5o+ZjUA=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" type="text/css" href="http://cdn.kendostatic.com/2013.2.716/styles/kendo.common.min.css">
+    <link rel="stylesheet" type="text/css" href="http://cdn.kendostatic.com/2013.2.716/styles/kendo.default.min.css">
+    <script type="text/javascript" src="http://cdn.kendostatic.com/2013.2.716/js/kendo.all.min.js"></script>
+
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div id="my-treeview"></div>
+<hr/>
+<button id="clickme">Click Me</button>
+<div id="results">
+  <h4>Checked Items</h4>
+  <ul></ul>
+</div>
+<script type="text/javascript">
+    // getChecked Method
+// -----------------
+
+kendo.ui.TreeView.prototype.getCheckedItems = (function() {
+
+function getCheckedItems() {
+  var nodes = this.dataSource.view();
+  return getCheckedNodes(nodes);
+}
+
+function getCheckedNodes(nodes) {
+  var node, childCheckedNodes;
+  var checkedNodes = [];
+
+  for (var i = 0; i < nodes.length; i++) {
+    node = nodes[i];
+    if (node.checked) {
+      checkedNodes.push(node);
+    }
+
+    // to understand recursion, first
+    // you must understand recursion
+    if (node.hasChildren) {
+      childCheckedNodes = getCheckedNodes(node.children.view());
+      if (childCheckedNodes.length > 0) {
+        checkedNodes = checkedNodes.concat(childCheckedNodes);
+      }
+    }
+
+  }
+
+  return checkedNodes;
+}
+
+return getCheckedItems;
+})();
+
+
+// Hierarchical data source
+// ------------------------
+
+var myDataSource = new kendo.data.HierarchicalDataSource({
+data: [{
+    id: 1,
+    name: "foo",
+    items: [{
+        id: 4,
+        name: "bar 2"
+      },
+      {
+        id: 5,
+        name: "baz 2"
+      }
+    ]
+  },
+  {
+    id: 2,
+    name: "bar",
+    items: [{
+        id: 6,
+        name: "foo 3"
+      },
+      {
+        id: 7,
+        name: "bar 3"
+      }
+    ]
+  },
+  {
+    id: 3,
+    name: "baz",
+    items: [{
+        id: 8,
+        name: "foo 4"
+      },
+      {
+        id: 9,
+        name: "baz 4"
+      }
+    ]
+  }
+
+]
+});
+
+// Treeview configuration
+// ----------------------
+
+var treeview = $("#my-treeview").kendoTreeView({
+dataSource: myDataSource,
+dataTextField: "name",
+
+// enable checkboxes
+checkboxes: true,
+
+// listen for item selection and
+// invert the checkbox state
+select: function(e) {
+  e.preventDefault();
+
+  var checkbox = $(e.node).find(":checkbox");
+  var checked = checkbox.prop("checked");
+  checkbox.prop("checked", !checked);
+}
+}).data("kendoTreeView");
+
+// Button handler
+// --------------
+
+$("#clickme").click(function(e) {
+e.preventDefault();
+var $res = $("#results ul");
+$res.html("");
+
+var items = treeview.getCheckedItems();
+
+if (items.length === 0) {
+  $("<li>(nothing checked)</li>").appendTo($res);
+} else {
+  for (var i = 0; i < items.length; i++) {
+    $("<li>" + "Id: " + items[i].id + "Name: " + items[i].name + "</li>").appendTo($res);
+  }
+}
+});
+
+</script>
+</body>
+</html>
